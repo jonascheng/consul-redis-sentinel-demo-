@@ -12,14 +12,14 @@ services:
         "consul",
         "agent",
         "-config-file",
-        "/config/config.hcl",
+        "${CONSUL_CONFIG}",
         "-bind",
         "${HOSTIP}",
         "-advertise",
         "${HOSTIP}",
         # with consul keygen
         "-encrypt",
-        "vyIt2UJcg16ULc1celZnbAUu7Wm69TeWksDNTlLZ1Z0="
+        "${REDIS_ENCRYPT}"
       ]
     volumes:
       - ./consul:/config
@@ -31,10 +31,6 @@ services:
   #     context: ./redis/
   #     dockerfile: Dockerfile
   #   image: redis-image
-  #   deploy:
-  #     resources:
-  #       limits:
-  #         memory: ${REDIS_MEM_LIMITS}
   #   container_name: redis
   #   restart: always
   #   depends_on:
