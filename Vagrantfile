@@ -4,10 +4,6 @@ sudo chmod +x /usr/local/bin/docker-compose
 sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 SCRIPT
 
-$golang = <<-SCRIPT
-sudo snap install go --classic
-SCRIPT
-
 $sshvm = <<SCRIPT
 #check for private key for vm-vm communication
 [ -f /vagrant/id_rsa ] || {
@@ -42,9 +38,6 @@ grep 10.1.0.20 /etc/hosts &>/dev/null || {
 grep 10.1.0.30 /etc/hosts &>/dev/null || {
     echo 10.1.0.30 server3 | sudo tee -a /etc/hosts &>/dev/null
 }
-grep 10.1.0.40 /etc/hosts &>/dev/null || {
-    echo 10.1.0.40 server-bench | sudo tee -a /etc/hosts &>/dev/null
-}
 #end script
 SCRIPT
 
@@ -53,7 +46,6 @@ Vagrant.configure("2") do |config|
   config.vm.box_version = "20210723.0.1"
   config.vm.provision "docker"
   config.vm.provision "shell", inline: $dockercompose
-  config.vm.provision "shell", inline: $golang
   config.vm.provision "shell", privileged: false, inline: $sshvm
 
   config.vm.provider "virtualbox" do |v|
@@ -73,11 +65,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "server3" do |node|
     node.vm.hostname = "server3"
     node.vm.network "private_network", ip: "10.1.0.30", hostname: true
-  end
-
-  config.vm.define "server-bench" do |node|
-    node.vm.hostname = "server-bench"
-    node.vm.network "private_network", ip: "10.1.0.40", hostname: true
   end
 
 end
