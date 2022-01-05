@@ -38,6 +38,12 @@ grep 10.1.0.20 /etc/hosts &>/dev/null || {
 grep 10.1.0.30 /etc/hosts &>/dev/null || {
     echo 10.1.0.30 server3 | sudo tee -a /etc/hosts &>/dev/null
 }
+grep 10.1.0.40 /etc/hosts &>/dev/null || {
+    echo 10.1.0.40 server4 | sudo tee -a /etc/hosts &>/dev/null
+}
+grep 10.1.0.50 /etc/hosts &>/dev/null || {
+    echo 10.1.0.50 server5 | sudo tee -a /etc/hosts &>/dev/null
+}
 #end script
 SCRIPT
 
@@ -65,6 +71,16 @@ Vagrant.configure("2") do |config|
   config.vm.define "server3" do |node|
     node.vm.hostname = "server3"
     node.vm.network "private_network", ip: "10.1.0.30", hostname: true
+  end
+
+  config.vm.define "server4" do |node|
+    node.vm.hostname = "server4"
+    node.vm.network "private_network", ip: "10.1.0.40", hostname: true
+  end
+
+  config.vm.define "server5" do |node|
+    node.vm.hostname = "server5"
+    node.vm.network "private_network", ip: "10.1.0.50", hostname: true
   end
 
 end

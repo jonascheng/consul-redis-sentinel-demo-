@@ -11,4 +11,4 @@ case "${OS}" in
     *)          HOSTIP=`hostname --ip-address`;;
 esac
 
-HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=master docker-compose up $@
+HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=master MASTER_HOSTIP=${HOSTIP} docker-compose up $@

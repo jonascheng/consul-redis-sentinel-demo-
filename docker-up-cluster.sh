@@ -1,6 +1,7 @@
 #!/bin/bash
 
 CONSUL_CONFIG=/config/config-cluster.hcl
+MASTER_HOSTIP=10.1.0.10
 
 OS="$(uname -s)"
 
@@ -12,6 +13,6 @@ case "${OS}" in
 esac
 
 case "${HOSTIP}" in
-    10.1.0.10*) HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=master docker-compose up $@;;
-    *)          HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=slave  docker-compose up $@;;
+    ${MASTER_HOSTIP}*) HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=master MASTER_HOSTIP=${MASTER_HOSTIP} docker-compose up $@;;
+    *)          HOSTIP=${HOSTIP} CONSUL_CONFIG=${CONSUL_CONFIG} REPLICATION=slave  MASTER_HOSTIP=${MASTER_HOSTIP} docker-compose up $@;;
 esac
